@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
     createProductController,
     deleteProductController,
+    getProductController,
     updateProductController,
 } from './controller';
 import { validateRequest } from '../../middlewares';
@@ -9,7 +10,11 @@ import { productValidationSchema, updateProductValidationSchema } from './valida
 
 const router = Router();
 
-router.route('/').post(validateRequest(productValidationSchema), createProductController);
+router
+    .route('/')
+    .post(validateRequest(productValidationSchema), createProductController)
+    .get(getProductController);
+
 router
     .route('/:id')
     .put(validateRequest(updateProductValidationSchema), updateProductController)

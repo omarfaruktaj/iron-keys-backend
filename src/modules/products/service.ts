@@ -1,3 +1,5 @@
+import ApiFeatures from '../../builder/api-feature';
+import { QueryString } from '../../interfaces/query';
 import Product from './model';
 import { TProduct, TUpdateProduct } from './validation';
 
@@ -12,4 +14,9 @@ export const updateProductService = (productId: string, data: TUpdateProduct) =>
 };
 export const deleteProductService = (productId: string) => {
     return Product.findByIdAndDelete(productId);
+};
+
+export const getProductService = (query: QueryString) => {
+    const features = new ApiFeatures<TProduct>(Product.find(), query).apply(['title', 'brand']);
+    return features;
 };
