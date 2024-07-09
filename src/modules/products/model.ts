@@ -1,11 +1,15 @@
 import { model, Schema } from 'mongoose';
-import { IProduct } from './interfaces';
+import { TProduct } from './validation';
 
-const productSchema = new Schema<IProduct>({
+const productSchema = new Schema<TProduct>({
     title: {
         type: String,
         required: [true, 'Title is required'],
         trim: true,
+    },
+    description: {
+        type: String,
+        required: [true, 'Description is required'],
     },
     brand: {
         type: String,
@@ -34,6 +38,6 @@ const productSchema = new Schema<IProduct>({
     },
 });
 
-const Product = model<IProduct>('Product', productSchema);
+const Product = model<TProduct>('Product', productSchema);
 
 export default Product;

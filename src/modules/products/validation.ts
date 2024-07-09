@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const productValidationSchema = z.object({
     title: z.string().min(1, { message: 'Title is required' }),
+    description: z.string().min(1, { message: 'Description is required' }),
     brand: z.string().min(1, { message: 'Brand is required' }),
     image: z.string().min(1, { message: 'Image is required' }),
     availableQuantity: z
@@ -15,3 +16,5 @@ export const productValidationSchema = z.object({
         .max(5, { message: "Rating can't be more than 5" })
         .optional(),
 });
+
+export type TProduct = z.infer<typeof productValidationSchema>;
