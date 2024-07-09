@@ -10,3 +10,6 @@ export const updateProductService = (productId: string, data: TUpdateProduct) =>
         runValidators: true,
     });
 };
+export const deleteProductService = (productId: string) => {
+    return Product.findByIdAndDelete(productId);
+};
