@@ -47,14 +47,15 @@ export const getSingleProductController: RequestHandler = async (req, res, next)
 
     const product = await getSingleProductService(productId);
 
-    if (!product) return next(new AppError('No product found', 404));
+    if (!product) {
+        return next(new AppError('No product found', 404));
+    }
 
     res.status(httpStatus.OK).json(new APIResponse(true, 'Product fetch successfully', product));
 };
 
 export const orderController: RequestHandler = async (req, res) => {
     const items = req.body.data;
-    console.log(items);
 
     const result = await orderService(items);
 

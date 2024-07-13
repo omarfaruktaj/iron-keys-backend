@@ -28,7 +28,6 @@ interface Pagination {
 }
 
 export const getProductsService = async (query: QueryString) => {
-    console.log(query);
     const features = new ApiFeatures<TProduct>(Product.find(), query).apply(['title', 'brand']);
     const productsCount = new ApiFeatures<TProduct>(Product.find(), query)
         .search(['title', 'brand'])
@@ -53,8 +52,6 @@ export const getProductsService = async (query: QueryString) => {
         pagination.prev = Number(query.page) - 1;
     }
     const products = await features;
-    // console.log(products);
-    console.log(pagination);
     return {
         products,
         pagination,
