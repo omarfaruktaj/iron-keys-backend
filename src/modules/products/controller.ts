@@ -2,7 +2,9 @@ import { RequestHandler } from 'express';
 import {
     createProductService,
     deleteProductService,
-    getProductService,
+    getProductsService,
+    getSingleProductService,
+    orderService,
     updateProductService,
 } from './service';
 import APIResponse from '../../utils/api-response';
@@ -33,12 +35,28 @@ export const deleteProductController: RequestHandler = async (req, res) => {
 
     res.status(httpStatus.OK).json(new APIResponse(true, 'Product deleted successfully', null));
 };
-export const getProductController: RequestHandler = async (req, res, next) => {
+export const getProductsController: RequestHandler = async (req, res) => {
     const query = req.query;
 
-    const products = await getProductService(query);
+    const data = await getProductsService(query);
 
-    if (!products.length) return next(new AppError('No product found', 404));
+    res.status(httpStatus.OK).json(new APIResponse(true, 'Products fetch successfully', data));
+};
+export const getSingleProductController: RequestHandler = async (req, res, next) => {
+    const productId = req.params.id;
 
-    res.status(httpStatus.OK).json(new APIResponse(true, 'Product fetch successfully', products));
+    const product = await getSingleProductService(productId);
+
+    if (!product) return next(new AppError('No product found', 404));
+
+    res.status(httpStatus.OK).json(new APIResponse(true, 'Product fetch successfully', product));
+};
+
+export const orderController: RequestHandler = async (req, res) => {
+    const items = req.body.data;
+    console.log(items);
+
+    const result = await orderService(items);
+
+    res.status(httpStatus.OK).json(new APIResponse(true, 'Order successful', result));
 };
